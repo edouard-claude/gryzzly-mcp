@@ -1,0 +1,74 @@
+[package]
+name = "mcp-gryzzly"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+license = "MIT"
+description = "Model Context Protocol server for Gryzzly time tracking — log time, read projects, cover the whole Gryzzly v1 API"
+repository = "https://github.com/edouard-claude/mcp-gryzzly"
+homepage = "https://github.com/edouard-claude/mcp-gryzzly"
+documentation = "https://docs.rs/mcp-gryzzly"
+readme = "README.md"
+keywords = ["mcp", "gryzzly", "time-tracking", "llm", "ai"]
+categories = ["command-line-utilities", "api-bindings"]
+exclude = [".github/", "Dockerfile", "docs/"]
+
+[[bin]]
+name = "mcp-gryzzly"
+path = "src/main.rs"
+
+[dependencies]
+rmcp = { version = "3.4", default-features = false, features = [
+    "server",
+    "macros",
+    "schemars",
+    "transport-io",
+    "transport-streamable-http-server",
+] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "signal", "io-std", "time", "sync", "fs"] }
+reqwest = { version = "0.13.2", default-features = false, features = ["json", "rustls", "charset", "http2", "query"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+schemars = { version = "1.0", features = ["chrono04"] }
+chrono = { version = "0.4", default-features = false, features = ["std", "clock", "serde"] }
+thiserror = "2"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio", "json"] }
+
+[dev-dependencies]
+wiremock = "0.6"
+tokio = { version = "1", features = ["full", "test-util"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+unused_must_use = "deny"
+
+[lints.clippy]
+pedantic = { level = "warn", priority = -1 }
+unwrap_used = "deny"
+expect_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
+dbg_macro = "deny"
+print_stdout = "warn"
+module_name_repetitions = "allow"
+missing_errors_doc = "allow"
+missing_panics_doc = "allow"
+too_many_lines = "allow"
+struct_excessive_bools = "allow"
+doc_markdown = "allow"
+multiple_crate_versions = "allow"
+must_use_candidate = "allow"
+similar_names = "allow"
+missing_const_for_fn = "allow"
+return_self_not_must_use = "allow"
+# The macro-generated handler bodies are async by construction.
+unused_async_trait_impl = "allow"
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = "symbols"

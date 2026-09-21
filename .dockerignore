@@ -1,0 +1,8 @@
+target
+.git
+.github
+README.md
+LICENSE
+Dockerfile
+.dockerignore
+.DS_Store
