@@ -105,7 +105,7 @@ impl ServerHandler for GryzzlyServer {
         .with_server_info(
             Implementation::new(crate::SERVER_NAME, crate::SERVER_VERSION)
                 .with_title("Gryzzly")
-                .with_website_url("https://github.com/edouard-claude/mcp-gryzzly"),
+                .with_website_url("https://github.com/edouard-claude/gryzzly-mcp"),
         )
         .with_instructions(INSTRUCTIONS)
     }

@@ -70,7 +70,7 @@ ENVIRONMENT:
     GRYZZLY_HTTP_TOKEN       Bearer token the HTTP transport requires.
     GRYZZLY_LOG              Log filter, e.g. info, debug, mcp_gryzzly=debug.
 
-Documentation: https://github.com/edouard-claude/mcp-gryzzly";
+Documentation: https://github.com/edouard-claude/gryzzly-mcp";
 
 fn main() -> std::process::ExitCode {
     let args = match parse_args(std::env::args().skip(1)) {

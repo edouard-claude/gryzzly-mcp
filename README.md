@@ -11,9 +11,9 @@ in front of any MCP client — and makes logging time the easy part.
 [![MCP](https://img.shields.io/badge/MCP-2025--11--25-8A63D2)](https://modelcontextprotocol.io)
 [![Gryzzly API](https://img.shields.io/badge/Gryzzly%20API-50%2F50%20endpoints-1FB770)](https://api.gryzzly.io/v1/doc/index.html)
 [![Transports](https://img.shields.io/badge/transports-stdio%20%2B%20Streamable%20HTTP-0b7285)](#run-it-over-http-instead)
-[![CI](https://github.com/edouard-claude/mcp-gryzzly/actions/workflows/ci.yml/badge.svg)](https://github.com/edouard-claude/mcp-gryzzly/actions/workflows/ci.yml)
+[![CI](https://github.com/edouard-claude/gryzzly-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/edouard-claude/gryzzly-mcp/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Stars](https://img.shields.io/github/stars/edouard-claude/mcp-gryzzly?style=flat&logo=github&color=f5c518)](https://github.com/edouard-claude/mcp-gryzzly/stargazers)
+[![Stars](https://img.shields.io/github/stars/edouard-claude/gryzzly-mcp?style=flat&logo=github&color=f5c518)](https://github.com/edouard-claude/gryzzly-mcp/stargazers)
 
 </div>
 
@@ -73,8 +73,8 @@ is the translation layer.
 <summary><b>From source (any platform with Rust 1.88+)</b></summary>
 
 ```bash
-git clone https://github.com/edouard-claude/mcp-gryzzly
-cd mcp-gryzzly
+git clone https://github.com/edouard-claude/gryzzly-mcp
+cd gryzzly-mcp
 cargo build --release
 # the binary is at target/release/mcp-gryzzly
 ```
@@ -84,7 +84,7 @@ cargo build --release
 <summary><b>With cargo install</b></summary>
 
 ```bash
-cargo install --git https://github.com/edouard-claude/mcp-gryzzly
+cargo install --git https://github.com/edouard-claude/gryzzly-mcp
 ```
 </details>
 
@@ -391,7 +391,7 @@ tests will tell you if it does not.
 <summary><b>Repository topics</b></summary>
 
 ```bash
-gh repo edit edouard-claude/mcp-gryzzly --add-topic \
+gh repo edit edouard-claude/gryzzly-mcp --add-topic \
 mcp,model-context-protocol,mcp-server,gryzzly,time-tracking,timesheet,rust,rmcp,llm-tools,ai-agents,claude,claude-desktop,claude-code,anthropic,api-client,productivity,developer-tools,automation,stdio,streamable-http
 ```
 </details>
