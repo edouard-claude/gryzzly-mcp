@@ -399,3 +399,5 @@ mcp,model-context-protocol,mcp-server,gryzzly,time-tracking,timesheet,rust,rmcp,
 ## License
 
 MIT — see [LICENSE](LICENSE). Not affiliated with Gryzzly.
+
+<sub>mcp-name: io.github.edouard-claude/gryzzly-mcp</sub>

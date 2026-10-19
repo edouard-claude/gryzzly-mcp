@@ -1,0 +1,51 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.edouard-claude/gryzzly-mcp",
+  "title": "Gryzzly",
+  "description": "Gryzzly time tracking: log time in plain language, all 50 v1 API endpoints, one Rust binary.",
+  "repository": {
+    "url": "https://github.com/edouard-claude/gryzzly-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/edouard-claude/gryzzly-mcp",
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "cargo",
+      "registryBaseUrl": "https://crates.io",
+      "identifier": "mcp-gryzzly",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "GRYZZLY_API_KEY",
+          "description": "Gryzzly API key, from Administration → API keys",
+          "isRequired": true,
+          "isSecret": true
+        },
+        {
+          "name": "GRYZZLY_USER_EMAIL",
+          "description": "Email of the person whose time is logged (or set GRYZZLY_USER_ID)",
+          "isRequired": false
+        },
+        {
+          "name": "GRYZZLY_USER_ID",
+          "description": "UUID of the person whose time is logged",
+          "isRequired": false
+        },
+        {
+          "name": "GRYZZLY_TOOLSETS",
+          "description": "Comma-separated toolsets: time,projects,directory,leaves,budget,exports",
+          "isRequired": false,
+          "default": "all"
+        },
+        {
+          "name": "GRYZZLY_READ_ONLY",
+          "description": "1 to withhold every write tool",
+          "isRequired": false,
+          "default": "0"
+        }
+      ]
+    }
+  ]
+}
