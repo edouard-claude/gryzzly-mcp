@@ -246,6 +246,10 @@ mod tests {
         let days = days_between(date("2026-09-14"), date("2026-09-20"));
         assert_eq!(days.len(), 7);
         assert_eq!(days.iter().filter(|d| is_weekend(**d)).count(), 2);
-        assert!(days_between(date("2026-09-20"), date("2026-09-14")).is_empty());
+        assert_eq!(
+            days_between(date("2026-09-20"), date("2026-09-14")),
+            Vec::<NaiveDate>::new(),
+            "an inverted range has no days"
+        );
     }
 }

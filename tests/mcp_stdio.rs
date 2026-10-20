@@ -391,7 +391,10 @@ async fn a_delete_without_confirmation_writes_nothing() {
             .is_some_and(|m| m.contains("confirm: true")),
         "{refused}"
     );
-    assert!(fake.bodies("declarations.delete").await.is_empty());
+    assert_eq!(
+        fake.bodies("declarations.delete").await,
+        Vec::<Value>::new()
+    );
 
     let deleted = mcp
         .structured(
@@ -551,7 +554,10 @@ async fn a_bad_duration_is_refused_before_anything_is_written() {
             .is_some_and(|m| m.contains("2h30")),
         "the error shows the accepted forms: {message}"
     );
-    assert!(fake.bodies("declarations.create").await.is_empty());
+    assert_eq!(
+        fake.bodies("declarations.create").await,
+        Vec::<Value>::new()
+    );
     mcp.shutdown().await;
 }
 
