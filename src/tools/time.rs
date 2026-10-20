@@ -370,10 +370,11 @@ impl GryzzlyServer {
         })
     }
 
-    /// Declare time. Gryzzly attaches time to a task, so name a task, or a
-    /// project whose tasks can be narrowed down to one. Durations are human:
-    /// `2h30`, `90m`, `1.5h`. The answer repeats the day's new total, which is
-    /// how you notice you have logged the same afternoon twice.
+    /// Delete one time declaration by its id, as returned by list_time_entries.
+    /// Irreversible: Gryzzly has no undo, so the call refuses to run without
+    /// confirm true, and the person should see the entry and agree first. Use
+    /// update_time_entry instead to correct a duration, day, task or
+    /// description.
     #[rmcp::tool(annotations(
         title = "Log time",
         read_only_hint = false,
@@ -498,9 +499,12 @@ impl GryzzlyServer {
         ok(report)
     }
 
-    /// A week's timesheet: totals per day and per project, the share each
-    /// project takes, and the working days that fall short of what is expected.
-    /// Nothing is written.
+    /// Summarise declared time over a week or a period for one user, the
+    /// current one by default: totals per day and per project, each project's
+    /// share, and the working days below the expected hours. Use it to answer
+    /// how much was logged or what is missing; use list_time_entries when you
+    /// need the individual entries and their ids. Read-only. Optional project
+    /// and task filters narrow the totals, not just a listing.
     #[rmcp::tool(annotations(title = "Timesheet", read_only_hint = true, open_world_hint = true))]
     pub async fn timesheet(
         &self,

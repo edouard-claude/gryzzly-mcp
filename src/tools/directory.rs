@@ -182,8 +182,11 @@ impl GryzzlyServer {
         ok(self.directory().user(Some(&args.user)).await?)
     }
 
-    /// Invite someone to the team by email. Gryzzly sends the invitation; the
-    /// user exists from that moment, pending their acceptance.
+    /// List tagsets, the families tags belong to (a tagset holds tags used to
+    /// label projects and tasks). Use it before list_tags to see which tag
+    /// families exist; use get_tagset for one tagset. Read-only, and read-only
+    /// upstream too: tagsets are managed in the Gryzzly web app. An empty
+    /// result is an empty list.
     #[rmcp::tool(annotations(
         title = "Invite a user",
         read_only_hint = false,
