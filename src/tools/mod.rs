@@ -365,6 +365,64 @@ mod tests {
     }
 
     #[test]
+    fn every_description_belongs_to_its_tool() {
+        // A description glued to the wrong function is invisible to the
+        // compiler and fatal to a model: `log_time` described as a delete is a
+        // tool nobody should call. The opening verb says what a tool does, so
+        // it has to agree with the annotation the tool declares.
+        const READS: &[&str] = &["List", "Read", "Summarise", "Who", "Download"];
+        const WRITES: &[&str] = &[
+            "Create", "Record", "Grant", "Declare", "Delete", "Change", "Invite", "Import",
+        ];
+        let router = router(&config(&[("GRYZZLY_API_KEY", "k")]));
+        for tool in router.list_all() {
+            let description = tool.description.as_deref().unwrap_or_default();
+            let verb = description.split_whitespace().next().unwrap_or_default();
+            let read_only = tool
+                .annotations
+                .as_ref()
+                .and_then(|a| a.read_only_hint)
+                .unwrap_or(false);
+            let destructive = tool
+                .annotations
+                .as_ref()
+                .and_then(|a| a.destructive_hint)
+                .unwrap_or(false);
+            match (READS.contains(&verb), WRITES.contains(&verb)) {
+                (true, false) => assert!(read_only, "{} reads ({verb}) but may write", tool.name),
+                (false, true) => assert!(
+                    !read_only,
+                    "{} writes ({verb}) but says it reads",
+                    tool.name
+                ),
+                _ => panic!(
+                    "{} opens with {verb:?}, which says neither read nor write",
+                    tool.name
+                ),
+            }
+            assert_eq!(
+                destructive,
+                verb == "Delete",
+                "{}: destructiveHint and a Delete description must go together",
+                tool.name
+            );
+            let subject = tool
+                .name
+                .split_once('_')
+                .map_or(tool.name.as_ref(), |(_, s)| s);
+            let stem = subject.split('_').next().unwrap_or(subject);
+            let stem = stem.trim_end_matches('s');
+            assert!(
+                tool.name == "whoami"
+                    || tool.name == "timesheet"
+                    || description.to_lowercase().contains(stem),
+                "{}: the description never mentions {stem:?}: {description:?}",
+                tool.name
+            );
+        }
+    }
+
+    #[test]
     fn a_delete_without_confirmation_says_what_to_do() {
         let err = require_confirmation(false, "this declaration").unwrap_err();
         assert!(err.message.contains("confirm: true"), "{}", err.message);

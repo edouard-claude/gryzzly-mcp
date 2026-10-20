@@ -182,11 +182,8 @@ impl GryzzlyServer {
         ok(self.directory().user(Some(&args.user)).await?)
     }
 
-    /// List tagsets, the families tags belong to (a tagset holds tags used to
-    /// label projects and tasks). Use it before list_tags to see which tag
-    /// families exist; use get_tagset for one tagset. Read-only, and read-only
-    /// upstream too: tagsets are managed in the Gryzzly web app. An empty
-    /// result is an empty list.
+    /// Invite someone to the team by email. Gryzzly sends the invitation; the
+    /// user exists from that moment, pending their acceptance.
     #[rmcp::tool(annotations(
         title = "Invite a user",
         read_only_hint = false,
@@ -214,7 +211,11 @@ impl GryzzlyServer {
         ok(user)
     }
 
-    /// List customers, the entities projects are billed to.
+    /// List customers, the organisations projects are attached to and billed
+    /// for. Use it to find a customer's id or name before create_project or
+    /// list_projects(customer=...); use get_customer for one customer's detail.
+    /// Read-only. Filter by name fragment, active status, or managers given by
+    /// name, email or id. An empty result is an empty list, not an error.
     #[rmcp::tool(annotations(
         title = "List customers",
         read_only_hint = true,
@@ -259,8 +260,11 @@ impl GryzzlyServer {
         ok(self.directory().customer(&args.customer).await?)
     }
 
-    /// Create a customer, the entity projects are attached to and billed for.
-    /// Managers can be named rather than identified.
+    /// Create a customer, the organisation projects are attached to and billed
+    /// for. Managers can be given by name, email or id. Use it before
+    /// create_project when the customer does not exist yet; check
+    /// list_customers first, since a second call creates a duplicate. Returns
+    /// the new customer with its id.
     #[rmcp::tool(annotations(
         title = "Create a customer",
         read_only_hint = false,
@@ -281,7 +285,11 @@ impl GryzzlyServer {
         ok(customer)
     }
 
-    /// Change a customer: rename it, deactivate it, change its managers.
+    /// Change an existing customer, found by name or id: rename it, mark it
+    /// active or inactive, or replace its managers (the list you pass replaces
+    /// the current one). Fields you omit are kept; Gryzzly requires a name on
+    /// every update, so the current one is resent. Use delete_customer to
+    /// remove a customer instead.
     #[rmcp::tool(annotations(
         title = "Update a customer",
         read_only_hint = false,
@@ -380,7 +388,11 @@ impl GryzzlyServer {
         ok(group)
     }
 
-    /// List groupsets, the sets groups belong to. Read-only upstream.
+    /// List groupsets, the families user groups belong to (a groupset holds
+    /// groups such as teams or sites). Use it to understand how the team is
+    /// organised before reading list_groups; use get_groupset for one groupset.
+    /// Read-only, and read-only upstream too: groupsets are managed in the
+    /// Gryzzly web app. An empty result is an empty list.
     #[rmcp::tool(annotations(
         title = "List groupsets",
         read_only_hint = true,
@@ -448,7 +460,11 @@ impl GryzzlyServer {
         ok(tag)
     }
 
-    /// List tagsets, the sets tags belong to. Read-only upstream.
+    /// List tagsets, the families tags belong to (a tagset holds tags used to
+    /// label projects and tasks). Use it before list_tags to see which tag
+    /// families exist; use get_tagset for one tagset. Read-only, and read-only
+    /// upstream too: tagsets are managed in the Gryzzly web app. An empty
+    /// result is an empty list.
     #[rmcp::tool(annotations(
         title = "List tagsets",
         read_only_hint = true,

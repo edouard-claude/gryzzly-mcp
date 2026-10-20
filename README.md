@@ -352,7 +352,7 @@ Put TLS in front of it. The process speaks plain HTTP and does not pretend other
 ## Verify
 
 ```bash
-cargo test                                   # 87 tests
+cargo test                                   # 88 tests
 cargo clippy --all-targets -- -D warnings
 cargo fmt --all --check
 mcp-gryzzly --list-tools                     # the surface, as registered

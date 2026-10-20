@@ -370,11 +370,10 @@ impl GryzzlyServer {
         })
     }
 
-    /// Delete one time declaration by its id, as returned by list_time_entries.
-    /// Irreversible: Gryzzly has no undo, so the call refuses to run without
-    /// confirm true, and the person should see the entry and agree first. Use
-    /// update_time_entry instead to correct a duration, day, task or
-    /// description.
+    /// Declare time. Gryzzly attaches time to a task, so name a task, or a
+    /// project whose tasks can be narrowed down to one. Durations are human:
+    /// `2h30`, `90m`, `1.5h`. The answer repeats the day's new total, which is
+    /// how you notice you have logged the same afternoon twice.
     #[rmcp::tool(annotations(
         title = "Log time",
         read_only_hint = false,
@@ -401,9 +400,11 @@ impl GryzzlyServer {
         })
     }
 
-    /// Declare several entries in one call, which is what filling a week looks
-    /// like. Entries are created in order; by default a refusal does not stop
-    /// the others, and every outcome is reported with its position.
+    /// Declare several time entries in one call, which is what filling a week
+    /// looks like: each entry takes the same arguments as log_time. Entries are
+    /// created in order; by default a refusal does not stop the others, and
+    /// every outcome is reported with its position. Read the week first with
+    /// timesheet: Gryzzly accepts duplicates, so calling this twice logs twice.
     #[rmcp::tool(annotations(
         title = "Log time in bulk",
         read_only_hint = false,
@@ -520,9 +521,11 @@ impl GryzzlyServer {
         ok(report)
     }
 
-    /// Change a declaration: its duration, its day, its task, its description.
-    /// Gryzzly's update requires all of them, so whatever is left out is read
-    /// back from the existing entry first.
+    /// Change one time entry (a declaration), by the id list_time_entries
+    /// returns: its duration, its day, its task, its description. Gryzzly's
+    /// update requires all of them, so whatever is left out is read back from
+    /// the existing entry first. Use log_time to add time and delete_time_entry
+    /// to remove an entry.
     #[rmcp::tool(annotations(
         title = "Update a time entry",
         read_only_hint = false,
@@ -582,8 +585,11 @@ impl GryzzlyServer {
         ok(self.view_of(&updated).await)
     }
 
-    /// Delete a declaration. Irreversible, so it refuses to run without
-    /// `confirm: true`.
+    /// Delete one time declaration by its id, as returned by list_time_entries.
+    /// Irreversible: Gryzzly has no undo, so the call refuses to run without
+    /// confirm true, and the person should see the entry and agree first. Use
+    /// update_time_entry instead to correct a duration, day, task or
+    /// description.
     #[rmcp::tool(annotations(
         title = "Delete a time entry",
         read_only_hint = false,
